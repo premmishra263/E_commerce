@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+var client = require("../client");
 
 function Copyright() {
   return (
@@ -48,6 +50,56 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const [emailValue, setEmailValue] = React.useState("");
+  const [firstNameValue, setFirstNameValue] = React.useState("");
+  const [lastNameValue, setLastNameValue] = React.useState("");
+  const [passwordValue, setPasswordValue] = React.useState("");
+
+  // useEffect(() => {
+  //  
+  // });
+
+  function changeEmailHandler(event){
+    setEmailValue(event.target.value);
+  };
+
+  function changeFirstNameHandler(event){
+    setFirstNameValue(event.target.value);
+  };
+
+  function changeLastNameHandler(event){
+    setLastNameValue(event.target.value);
+  };
+
+  function changePasswordHandler(event){
+    setPasswordValue(event.target.value);
+  };
+
+  function register() {
+    console.log("here");
+    const url = ``;
+    var bodyFormData = new FormData();
+    bodyFormData.set("first_name", firstNameValue);
+    bodyFormData.set("last_name", lastNameValue);
+    bodyFormData.set("email", emailValue);
+    bodyFormData.set("password", passwordValue);
+    client({
+      method: "post",
+      url: url,
+      data: bodyFormData,
+    })
+      .then(function(response) {
+        if (response.data["status"] == 1) {
+          console.log(response);
+        } else {
+         console.log("error")
+        }
+      })
+      .catch(function(response) {
+        //handle error
+        console.log(response);
+      });
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -70,6 +122,7 @@ export default function SignUp() {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                onChange={changeFirstNameHandler}
                 autoFocus
               />
             </Grid>
@@ -81,6 +134,7 @@ export default function SignUp() {
                 id="lastName"
                 label="Last Name"
                 name="lastName"
+                onChange={changeLastNameHandler}
                 autoComplete="lname"
               />
             </Grid>
@@ -93,6 +147,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={changeEmailHandler}
               />
             </Grid>
             <Grid item xs={12}>
@@ -104,6 +159,7 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={changePasswordHandler}
                 autoComplete="current-password"
               />
             </Grid>
@@ -115,11 +171,11 @@ export default function SignUp() {
             </Grid>
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={register}
           >
             Sign Up
           </Button>
