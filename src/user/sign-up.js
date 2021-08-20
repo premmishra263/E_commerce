@@ -54,6 +54,9 @@ export default function SignUp() {
   const [firstNameValue, setFirstNameValue] = React.useState("");
   const [lastNameValue, setLastNameValue] = React.useState("");
   const [passwordValue, setPasswordValue] = React.useState("");
+  const [phoneValue, setPhoneValue] = React.useState("");
+  const [pincodeValue, setPincodeValue] = React.useState("");
+  const [addressdValue, setAddressValue] = React.useState("");
 
   // useEffect(() => {
   //  
@@ -75,14 +78,28 @@ export default function SignUp() {
     setPasswordValue(event.target.value);
   };
 
+  function changeMobileHandler(event){
+    setPhoneValue(event.target.value);
+  };
+
+  function changePinCodeHandler(event){
+    setPincodeValue(event.target.value);
+  };
+
+  function changeAddressHandler(event){
+    setAddressValue(event.target.value);
+  };
+
   function register() {
-    console.log("here");
     const url = ``;
     var bodyFormData = new FormData();
     bodyFormData.set("first_name", firstNameValue);
     bodyFormData.set("last_name", lastNameValue);
     bodyFormData.set("email", emailValue);
     bodyFormData.set("password", passwordValue);
+    bodyFormData.set("phone", phoneValue);
+    bodyFormData.set("pincode", pincodeValue);
+    bodyFormData.set("address", addressdValue);
     client({
       method: "post",
       url: url,
@@ -90,7 +107,6 @@ export default function SignUp() {
     })
       .then(function(response) {
         if (response.data["status"] == 1) {
-          console.log(response);
         } else {
          console.log("error")
         }
@@ -148,6 +164,41 @@ export default function SignUp() {
                 name="email"
                 autoComplete="email"
                 onChange={changeEmailHandler}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                type="number"
+                id="phone"
+                label="Mobile No"
+                name="mobile"
+                onChange={changeMobileHandler}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="pincode"
+                type="number"
+                label="Pin Code"
+                name="pincode"
+                onChange={changePinCodeHandler}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="address"
+                label="Address"
+                name="address"
+                onChange={changeAddressHandler}
               />
             </Grid>
             <Grid item xs={12}>
